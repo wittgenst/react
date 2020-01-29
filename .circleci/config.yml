@@ -75,7 +75,7 @@ jobs:
           paths:
             - ~/.cache/yarn
 
- lint:
+  lint:
     docker: *docker
     environment: *environment
 
