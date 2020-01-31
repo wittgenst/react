@@ -1,7 +1,7 @@
 version: 2.1      #may need to downgrade, check backwards compatibility
 
 orbs:
-  windows: circleci/windows@2.4.0
+  win: circleci/windows@2.4.0
 
 aliases:
   - &docker
