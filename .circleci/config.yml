@@ -367,7 +367,7 @@ jobs:
   setup_ms_windows:
     executor:
       name: win/default
-    environment: *ms_windows_environment  #error
+    environment: *ms_windows_environment
     steps:
       # Fix line endings in Windows.
       - run:
@@ -378,7 +378,8 @@ jobs:
         command: yarn install --frozen-lockfile
 
   test_ms_windows:
-    windows
+    executor:
+      name: win/default
     environment: *ms_windows_environment
     steps:
       - checkout
