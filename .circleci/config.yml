@@ -1,4 +1,7 @@
-version: 2
+version: 2.1      #may need to downgrade, check backwards compatibility
+
+orbs:
+  windows: circleci/windows@2.4.0
 
 aliases:
   - &docker
@@ -362,8 +365,9 @@ jobs:
           command: yarn test-build-prod --maxWorkers=2
 
   setup_ms_windows:
-    windows
-    environment: *ms_windows_environment
+    executor:
+      name: win/default
+    environment: *ms_windows_environment  #error
     steps:
       # Fix line endings in Windows.
       - run:
