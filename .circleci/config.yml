@@ -388,7 +388,8 @@ jobs:
     steps:
       - checkout
       - run:
-          command: choco install nodejs --version=10.0.0
+          #command: choco install nodejs --version=10.0.0
+          command: nvm install 10
       - run:
           command: node --version
       - run:
