@@ -374,7 +374,7 @@ jobs:
           command: git config --global core.autocrlf input
       - run:
       #    command: Install-Product node *nodejs_version *ms_windows_platform
-          command: choco install node --version=10
+          command: choco install node --version=10.0.0
       - run:
           command: yarn install --frozen-lockfile
 
