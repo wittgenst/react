@@ -371,11 +371,11 @@ jobs:
     steps:
       # Fix line endings in Windows.
       - run:
-        command: git config --global core.autocrlf input
+          command: git config --global core.autocrlf input
       - run:
-        command: Install-Product node *nodejs_version *ms_windows_platform
+          command: Install-Product node *nodejs_version *ms_windows_platform
       - run:
-        command: yarn install --frozen-lockfile
+          command: yarn install --frozen-lockfile
 
   test_ms_windows:
     executor:
@@ -384,15 +384,15 @@ jobs:
     steps:
       - checkout
       - run:
-        command: node --version
+          command: node --version
       - run:
-        command: yarn lint
+          command: yarn lint
       - run:
-        command: yarn build
+          command: yarn build
       - run:
-        command: yarn test
+          command: yarn test
       - run:
-        command: yarn prettier
+          command: yarn prettier
 
 workflows:
   version: 2
