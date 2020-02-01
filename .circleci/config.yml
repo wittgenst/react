@@ -385,6 +385,8 @@ jobs:
     steps:
       - checkout
       - run:
+          command: choco install nodejs --version=10.0.0
+      - run:
           command: node --version
       - run:
           command: yarn lint
