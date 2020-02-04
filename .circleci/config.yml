@@ -386,10 +386,13 @@ jobs:
       name: win/default
     environment: *ms_windows_environment
     steps:
+       # Fix line endings in Windows.
+      - run:
+          command: git config --global core.autocrlf input
       - checkout
       - run:
           #command: choco install nodejs --version=10.0.0
-          command: nvm install 10.13
+          command: nvm install 10.18.1
       - run:
           #command: nvm use 10.13  #needed!
           command: nvm use 10.18.1  #version used in Appveyor
@@ -400,7 +403,7 @@ jobs:
       - run:
           command: yarn --version
       - run:
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - run:
           command: yarn lint
       - run:
@@ -500,7 +503,7 @@ workflows:
 
   ms_windows:
     jobs:
-      - setup_ms_windows
+      #- setup_ms_windows
       - test_ms_windows:
           requires:
           - setup_ms_windows
