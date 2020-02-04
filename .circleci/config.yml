@@ -505,7 +505,7 @@ workflows:
     jobs:
       #- setup_ms_windows
       - test_ms_windows:
-          requires:
-          - setup_ms_windows
+          #requires:
+          #- setup_ms_windows
 
 
