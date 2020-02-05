@@ -369,9 +369,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-win-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-win-node-{{ arch }}-{{ .Branch }}-
-            - v1-win-node-{{ arch }}-
+            - v2-win-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-win-node-{{ arch }}-{{ .Branch }}-
+            - v2-win-node-{{ arch }}-
       - run:
           command: nvm install 10.18.1
       - run:
@@ -383,7 +383,7 @@ jobs:
       - run:
           command: yarn install --frozen-lockfile
       - save_cache:
-          key: v1-win-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v2-win-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - C:\Users\circleci\AppData\Local\Yarn
       - run:
