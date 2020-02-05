@@ -385,7 +385,7 @@ jobs:
       - save_cache:
           key: v1-win-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - "%LOCALAPPDATA%\Yarn"
+            - "%LOCALAPPDATA%/Yarn"
       - run:
           command: yarn lint
       - run:
