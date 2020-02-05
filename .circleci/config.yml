@@ -468,20 +468,20 @@ workflows:
           requires:
             - build_experimental
 
-  fuzz_tests:
-    triggers:
-      - schedule:
-          # Fuzz tests run hourly
-          cron: "0 * * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - setup
-      - test_fuzz:
-          requires:
-            - setup
+  # fuzz_tests:
+  #   triggers:
+  #     - schedule:
+  #         # Fuzz tests run hourly
+  #         cron: "0 * * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #   jobs:
+  #     - setup
+  #     - test_fuzz:
+  #         requires:
+  #           - setup
 
   ms_windows:
     jobs:
