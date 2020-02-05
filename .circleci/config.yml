@@ -54,12 +54,6 @@ aliases:
   - &ms_windows_environment
     JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
-  #- &nodejs_version
-  #  10
-
-  #- &ms_windows_platform
-  #  64
-
 jobs:
   setup:
     docker: *docker
@@ -364,44 +358,23 @@ jobs:
             RELEASE_CHANNEL: experimental
           command: yarn test-build-prod --maxWorkers=2
 
-  setup_ms_windows:
-    executor:
-      name: win/default
-    environment: *ms_windows_environment
-    steps:
-      # Fix line endings in Windows.
-      - run:
-          command: git config --global core.autocrlf input
-      - run:
-      #    command: Install-Product node *nodejs_version *ms_windows_platform
-          #command: choco install nodejs --version=10.0.0  #works
-          command: nvm install 10
-      - run:
-          command: nvm ls available
-      - run:
-          command: yarn install --frozen-lockfile
-
   test_ms_windows:
     executor:
       name: win/default
     environment: *ms_windows_environment
     steps:
-       # Fix line endings in Windows.
       - run:
+          # Fix line endings in Windows.
           command: git config --global core.autocrlf input
       - checkout
       - run:
-          #command: choco install nodejs --version=10.0.0
           command: nvm install 10.18.1
       - run:
-          #command: nvm use 10.13  #needed!
-          command: nvm use 10.18.1  #version used in Appveyor
+          command: nvm use 10.18.1
       - run:
           command: node --version
       - run:
-          command: choco install yarn #not needed with node 12!
-      - run:
-          command: yarn --version
+          command: choco install yarn
       - run:
           command: yarn install --frozen-lockfile
       - run:
@@ -415,97 +388,94 @@ jobs:
 
 workflows:
   version: 2
-  # stable:
-  #   jobs:
-  #     - setup
-  #     - lint:
-  #         requires:
-  #           - setup
-  #     - flow:
-  #         requires:
-  #           - setup
-  #     - test_source:
-  #         requires:
-  #           - setup
-  #     - test_source_prod:
-  #         requires:
-  #           - setup
-  #     - test_source_persistent:
-  #         requires:
-  #           - setup
-  #     - build:
-  #         requires:
-  #           - setup
-  #     - process_artifacts:
-  #         requires:
-  #           - build
-  #     - sizebot:
-  #         requires:
-  #           - build
-  #     - lint_build:
-  #         requires:
-  #           - build
-  #     - test_build:
-  #         requires:
-  #           - build
-  #     - test_build_prod:
-  #         requires:
-  #           - build
-  #     - test_dom_fixtures:
-  #         requires:
-  #           - build
+  stable:
+    jobs:
+      - setup
+      - lint:
+          requires:
+            - setup
+      - flow:
+          requires:
+            - setup
+      - test_source:
+          requires:
+            - setup
+      - test_source_prod:
+          requires:
+            - setup
+      - test_source_persistent:
+          requires:
+            - setup
+      - build:
+          requires:
+            - setup
+      - process_artifacts:
+          requires:
+            - build
+      - sizebot:
+          requires:
+            - build
+      - lint_build:
+          requires:
+            - build
+      - test_build:
+          requires:
+            - build
+      - test_build_prod:
+          requires:
+            - build
+      - test_dom_fixtures:
+          requires:
+            - build
 
-  # experimental:
-  #   jobs:
-  #     - setup
-  #     - test_source_experimental:
-  #         requires:
-  #           - setup
-  #     - build_experimental:
-  #         requires:
-  #           - setup
-  #     - process_artifacts_experimental:
-  #         requires:
-  #           - build_experimental
-  #     - sizebot_experimental:
-  #         requires:
-  #           - build_experimental
-  #     - test_build_experimental:
-  #         requires:
-  #           - build_experimental
-  #     - test_build_prod_experimental:
-  #         requires:
-  #           - build_experimental
-  #     - lint_build:
-  #         requires:
-  #           - build_experimental
-  #     - test_devtools:
-  #         requires:
-  #           - build_experimental
-  #     - build_devtools_and_process_artifacts:
-  #         requires:
-  #           - build_experimental
+  experimental:
+    jobs:
+      - setup
+      - test_source_experimental:
+          requires:
+            - setup
+      - build_experimental:
+          requires:
+            - setup
+      - process_artifacts_experimental:
+          requires:
+            - build_experimental
+      - sizebot_experimental:
+          requires:
+            - build_experimental
+      - test_build_experimental:
+          requires:
+            - build_experimental
+      - test_build_prod_experimental:
+          requires:
+            - build_experimental
+      - lint_build:
+          requires:
+            - build_experimental
+      - test_devtools:
+          requires:
+            - build_experimental
+      - build_devtools_and_process_artifacts:
+          requires:
+            - build_experimental
 
-  # fuzz_tests:
-  #   triggers:
-  #     - schedule:
-  #         # Fuzz tests run hourly
-  #         cron: "0 * * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #   jobs:
-  #     - setup
-  #     - test_fuzz:
-  #         requires:
-  #           - setup
+  fuzz_tests:
+    triggers:
+      - schedule:
+          # Fuzz tests run hourly
+          cron: "0 * * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - setup
+      - test_fuzz:
+          requires:
+            - setup
 
   ms_windows:
     jobs:
-      #- setup_ms_windows
       - test_ms_windows
-          #requires:
-          #- setup_ms_windows
 
 
